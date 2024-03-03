@@ -706,6 +706,8 @@ class Info(MetricWrapperBase):
             raise ValueError('Overlapping labels for Info metric, metric: {} child: {}'.format(
                 self._labelnames, val))
         with self._lock:
+            if any( i is None for i in val.values() ):
+                raise ValueError('Label value cannot be None')
             self._value = dict(val)
 
     def _child_samples(self) -> Iterable[Sample]:
